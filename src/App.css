@@ -61,8 +61,8 @@
 }
  
 /* .feedback-instructions{
-  border: 1px solid black;
   text-align: left;
+  width: 30vw;
 } */
 
 .feedbackBtn{
@@ -70,6 +70,5 @@
 }
 
 .questions{
-  margin-bottom: 5vw;
-  margin-top: -6vw;
+  margin-top: -20vw;
 }
