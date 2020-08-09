@@ -26,13 +26,6 @@ const FeedbackForm = (props) => {
       setShowStatusMessage(false);
     };
         
-    // here we will handle the change in the text user types
-    const handleInputChange = e => {
-        // e.persist();
-        console.log(`Making a change to ${e.target.name}`)
-        setInputs({...inputs, [e.target.name]: e.target.value})
-    }
-    
     const handleSubmit = e => {
       e.preventDefault();
       // mount props on input without setting state to handle edgecase
@@ -65,8 +58,9 @@ const FeedbackForm = (props) => {
 
     const displayWriteForm = (
        <GetText
-       handleInputChange={handleInputChange}
        handleSubmit={handleSubmit}
+       setInputs={setInputs}
+       inputs={inputs}
        /> 
     )
 
