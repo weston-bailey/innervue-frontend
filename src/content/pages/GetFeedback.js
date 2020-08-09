@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
     moreFeedback: {
         color: "#0235F4"
     }
-
 }));
 
 const GetFeedback = (props) => {
