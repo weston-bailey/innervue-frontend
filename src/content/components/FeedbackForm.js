@@ -4,10 +4,9 @@ import FlashMessage from '../components/FlashMessage';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import StopIcon from '@material-ui/icons/Stop';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import ListeningButtons from './ListeningButtons';
 
 const FeedbackForm = (props) => {
     const [isListening, setIsListening] = useState(false)
@@ -48,6 +47,7 @@ const FeedbackForm = (props) => {
     
     const {interimTranscript, transcript, finalTranscript, resetTranscript } = useSpeechRecognition()
 
+    // for speech form only
     useEffect(() => {
         if (interimTranscript !== '') {
             // console.log('Got interim result:', interimTranscript)
@@ -73,7 +73,8 @@ const FeedbackForm = (props) => {
       inputs.category = props.selectedCategory;
       // get the current user from the jwt token
       const decoded = jwt_decode(localStorage.getItem('jwtToken'));
-      axios.post(`${process.env.REACT_APP_SERVER_URL}users/${decoded.id}/questions`, inputs)
+      console.log(`${process.env.REACT_APP_SERVER_URL}/users/${decoded.id}/questions`)
+      axios.post(`${process.env.REACT_APP_SERVER_URL}/users/${decoded.id}/questions`, inputs)
       .then(response => {
           if (response.status === 201) {
               props.setQuestion(response.data)
@@ -90,25 +91,11 @@ const FeedbackForm = (props) => {
     const displaySpeechForm = (
         <Grid container spacing={12}>
             <Grid item xs={12} className="feedback-buttons-row">
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    startIcon={<KeyboardVoiceIcon />}
-                    onClick={startListening}
-                >
-                Start
-                </Button>
-                <Button onClick={() => {
-                    stopListening()}
-                }
-                startIcon={<StopIcon/>}
-                variant="outlined"
-                color="secondary"
-                >Stop</Button>
-                <Button onClick={resetTranscript}
-                variant="outlined"
-                color="secondary"
-                >Reset</Button>
+                <ListeningButtons 
+                    startListening={startListening}
+                    stopListening={stopListening}
+                    resetTranscript={resetTranscript}
+                />
             </Grid>
             <Grid item xs={6}>
             <form className="feedbackBtn" onSubmit={
@@ -132,25 +119,11 @@ const FeedbackForm = (props) => {
     const displayWriteForm = (
         <Grid container spacing={6}>
             <Grid item xs={12} className="feedback-buttons-row">
-                <Button
-                    variant="outlined"
-                    color="secondary"
-                    startIcon={<KeyboardVoiceIcon />}
-                    onClick={startListening}
-                >
-                Start
-                </Button>
-                <Button onClick={() => {
-                    stopListening()}
-                }
-                startIcon={<StopIcon/>}
-                variant="outlined"
-                color="secondary"
-                >Stop</Button>
-                <Button onClick={resetTranscript}
-                variant="outlined"
-                color="secondary"
-                >Reset</Button>
+                <ListeningButtons
+                 startListening={startListening}
+                 stopListening={stopListening}
+                 resetTranscript={resetTranscript}
+                />
             </Grid>
             <Grid item xs={6}>
                 <form onSubmit={handleSubmit}>    

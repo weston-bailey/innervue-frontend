@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import FeedbackForm from '../components/FeedbackForm';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Container } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import QuestionSelector from '../components/QuestionSelector';
-import { set } from 'd3';
 import FeedbackLogo from '../components/FeedbackLogo';
 import Paper from '@material-ui/core/Paper';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom"
@@ -61,7 +60,7 @@ const GetFeedback = (props) => {
     const handleQuestionClick = (event) => {
         setSelectedQuestion(event.target.value)
         setSelectedCategory(event.target.name)
-        // console.log(selectedQuestion)
+        console.log(selectedQuestion)
     };
 
     const classes = useStyles()

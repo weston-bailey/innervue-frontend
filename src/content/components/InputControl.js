@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const InputControl = (props) => {
-    console.log(props.questions)
     const classes = useStyles();
     return (
         <div>
