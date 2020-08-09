@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import FlashMessage from '../components/FlashMessage';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import ListeningButtons from './ListeningButtons';
-import WriteForm from './WriteForm';
 import GetSpeech from './GetSpeech';
+import GetText from './GetText';
 
 const FeedbackForm = (props) => {
     const [isListening, setIsListening] = useState(false)
@@ -15,6 +12,7 @@ const FeedbackForm = (props) => {
       content: '',
       category: ''
     });
+
     // if a status message should be shown from the server
     const [showStatusMessage, setShowStatusMessage] = useState(false);
     // the message form the server
@@ -66,23 +64,15 @@ const FeedbackForm = (props) => {
     )
 
     const displayWriteForm = (
-        <Grid container spacing={6}>
-            <Grid item xs={12} className="feedback-buttons-row">
-                <ListeningButtons />
-            </Grid>
-            <Grid item xs={6}>
-                <WriteForm
-                handleInputChange={handleInputChange}
-                handleSubmit={handleSubmit}
-                />
-            </Grid>
-        </Grid>
+       <GetText
+       handleInputChange={handleInputChange}
+       handleSubmit={handleSubmit}
+       /> 
     )
 
     // get one where we are talking into it, or one where we are supposed to write
     let correctForm = isListening ? displaySpeechForm : displayWriteForm
     
-
     return (
         <div className="show-correct-form">
             <FlashMessage 
