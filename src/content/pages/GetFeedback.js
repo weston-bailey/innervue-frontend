@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import FeedbackForm from '../components/FeedbackForm';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-import QuestionSelector from '../components/QuestionSelector';
-import FeedbackLogo from '../components/FeedbackLogo';
-import Paper from '@material-ui/core/Paper';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom"
-import Button from '@material-ui/core/Button';
+import ShowAnalysis from '../components/ShowAnalysis';
+import ShowFeedback from '../components/ShowFeedback';
 
 
 const useStyles = makeStyles(theme => ({
@@ -57,46 +52,21 @@ const GetFeedback = (props) => {
       }
     });
  
-    const handleQuestionClick = (event) => {
-        setSelectedQuestion(event.target.value)
-        setSelectedCategory(event.target.name)
-        console.log(selectedQuestion)
-    };
-
     const classes = useStyles()
 
     const gettingFeedback = (
-          <Grid container spacing={6}>
-              <Grid item xs={12}></Grid>
-              <Grid item xs={12}>
-              <Box className={classes.banner}>
-                  <div className="feedback-instructions">
-                  <h1>feedback</h1>
-                  <Grid item xs={4}>
-                  <p>Talk or type in the text box and submit to get instant feedback on your response!</p>
-                  </Grid> 
-                  </div>
-              <Grid container spacing={6}>
-                  <Grid item xs={6}>
-                      <FeedbackForm 
-                      className={classes.feedback}
-                      selectedQuestion={selectedQuestion}
-                      selectedCategory={selectedCategory}
-                      setAnalysis={props.setAnalysis}
-                      setQuestion={setQuestion}
-                      />
-                  </Grid>
-                  <Grid item xs={5}>
-                  <QuestionSelector handleQuestionClick={handleQuestionClick}/>
-              </Grid>  
-              </Grid>
-              </Box>
-          </Grid>
-      </Grid>
+        <ShowFeedback
+        classes={classes}
+        selectedCategory={selectedCategory}
+        selectedQuestion={selectedQuestion}
+        setSelectedCategory={setSelectedCategory}
+        setSelectedQuestion={setSelectedQuestion}
+        setQuestion={setQuestion}
+        />
     )
     console.log('question:', question);
 
-    // map the negative mentions into something pretty -- this array can be empty sometimes (nothing was mentioned negetively)
+    // map the negative mentions into something pretty -- this array can be empty sometimes (nothing was mentioned negatively)
     const negativity = ( question.analysis.negativeMentions.map( negativeMention => {
         return (
             <div>
@@ -108,35 +78,13 @@ const GetFeedback = (props) => {
 
     const gettingAnalysis = (
         <div>
-            <Grid container spacing={6}>
-                <Grid item xs={12}></Grid>
-                <Grid item xs={12}>
-                    <Box className={classes.banner}>
-                        <h1 >analysis</h1>
-                        <Grid container spacing={6}>
-                            <Grid item xs={6}>
-                                <Paper variant="outlined" ><p className={classes.analysis}><strong>Question category:</strong> {question.category}</p>
-                                <p className={classes.analysis}><strong>The question you selected:</strong> {question.content}</p>
-                                <p className={classes.analysis}><strong>Your response:</strong> {question.answer}</p>
-                                <p className={classes.analysis}><strong>Your overall sentiment score:</strong> {question.analysis.overallMagnitude} {question.analysis.overallScore} </p>
-                                <p className={classes.analysis}><strong>Our feedback:</strong> {question.analysis.overallFeedback}</p>
-                                <p className={classes.analysis}>{negativity}</p>
-                                </Paper>
-                                <Button className={classes.moreFeedback} color="secondary" variant="contained">
-                                    <Link className="nav-link" to="/feedback" onClick={() => {
-                                        props.setAnalysis(false)
-                                        }}>Get More Feedback</Link>
-                                </Button>
-                            </Grid>
-                            <Grid item xs={6}><FeedbackLogo className={classes.feedbackLogo}/></Grid>
-                        </Grid>
-                    </Box>
-                </Grid>
-            </Grid>
+            <ShowAnalysis
+            classes={classes}
+            question={question}
+            negativity={negativity}
+            />
         </div>
     )
-
-        
 
     return (
             <div>
