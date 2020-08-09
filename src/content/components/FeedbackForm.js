@@ -7,6 +7,8 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import ListeningButtons from './ListeningButtons';
+import WriteForm from './WriteForm';
+import SpeechForm from './SpeechForm';
 
 const FeedbackForm = (props) => {
     const [isListening, setIsListening] = useState(false)
@@ -98,20 +100,10 @@ const FeedbackForm = (props) => {
                 />
             </Grid>
             <Grid item xs={6}>
-            <form className="feedbackBtn" onSubmit={
-                handleSubmit}>
-                    <br />
-                <TextareaAutosize 
-                    name="answer"
-                    className="feedback-form-box"
-                    rowsMin={20}
-                    value={transcript}
-                    >Transcription:
-                </TextareaAutosize>
-                <Grid item xs={12}>
-                <Button className="where" variant="outlined" color="secondary" type="submit">Get Feedback</Button>
-                </Grid>
-            </form>
+                <SpeechForm
+                handleSubmit={handleSubmit}
+                transcript={transcript}
+                />
             </Grid>
         </Grid>        
     )
@@ -126,18 +118,10 @@ const FeedbackForm = (props) => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <form onSubmit={handleSubmit}>    
-                <br />
-                    <TextareaAutosize 
-                        className="feedback-form-box"
-                        name="answer"
-                        onChange={handleInputChange}
-                        rowsMin={20}>
-                    </TextareaAutosize>
-                    <Grid item xs={12} className="feedbackBtn">
-                    <Button variant="outlined" color="secondary" onSubmit={handleSubmit} type="submit">Get Feedback</Button>
-                    </Grid>
-                </form>
+                <WriteForm
+                handleInputChange={handleInputChange}
+                handleSubmit={handleSubmit}
+                />
             </Grid>
         </Grid>
     )
