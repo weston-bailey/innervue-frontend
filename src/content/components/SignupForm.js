@@ -77,6 +77,8 @@ export default function SignupForm(props) {
     setShowStatusMessage(false);
   };
 
+  console.log(`${process.env.REACT_APP_SERVER_URL}users/auth/register`)
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newUser = {

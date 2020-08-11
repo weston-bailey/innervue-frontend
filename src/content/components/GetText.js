@@ -13,6 +13,7 @@ const GetText = (props) => {
                 <WriteForm
                 handleInputChange={props.handleInputChange}
                 handleSubmit={props.handleSubmit}
+                setInputs={props.setInputs}
                 />
             </Grid>
         </Grid>

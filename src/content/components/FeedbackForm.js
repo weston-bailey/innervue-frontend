@@ -13,6 +13,13 @@ const FeedbackForm = (props) => {
       category: ''
     });
 
+    // here we will handle the change in the text user types
+    const handleInputChange = e => {
+      // e.persist();
+      console.log(`Making a change to ${e.target.name}`)
+      setInputs({...props.inputs, [e.target.name]: e.target.value})
+  }
+
     // if a status message should be shown from the server
     const [showStatusMessage, setShowStatusMessage] = useState(false);
     // the message form the server
@@ -33,8 +40,7 @@ const FeedbackForm = (props) => {
       inputs.category = props.selectedCategory;
       // get the current user from the jwt token
       const decoded = jwt_decode(localStorage.getItem('jwtToken'));
-      console.log(`${process.env.REACT_APP_SERVER_URL}/users/${decoded.id}/questions`)
-      axios.post(`${process.env.REACT_APP_SERVER_URL}/users/${decoded.id}/questions`, inputs)
+      axios.post(`${process.env.REACT_APP_SERVER_URL}users/${decoded.id}/questions`, inputs)
       .then(response => {
           if (response.status === 201) {
               props.setQuestion(response.data)
@@ -61,6 +67,7 @@ const FeedbackForm = (props) => {
        handleSubmit={handleSubmit}
        setInputs={setInputs}
        inputs={inputs}
+       handleInputChange={handleInputChange}
        /> 
     )
 
