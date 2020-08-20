@@ -61,6 +61,7 @@ const GetFeedback = (props) => {
         setSelectedCategory={setSelectedCategory}
         setSelectedQuestion={setSelectedQuestion}
         setQuestion={setQuestion}
+        setAnalysis={props.setAnalysis}
         />
     )
     console.log('question:', question);
@@ -81,6 +82,7 @@ const GetFeedback = (props) => {
             classes={classes}
             question={question}
             negativity={negativity}
+            setAnalysis={props.setAnalysis}
             />
         </div>
     )
