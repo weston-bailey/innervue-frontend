@@ -14,6 +14,13 @@ const FeedbackForm = (props) => {
       category: ''
     });
 
+    // here we will handle the change in the text user types
+    const handleInputChange = e => {
+      // e.persist();
+      console.log(`Making a change to ${e.target.name}`)
+      setInputs({...props.inputs, [e.target.name]: e.target.value})
+  }
+
     // if a status message should be shown from the server
     const [showStatusMessage, setShowStatusMessage] = useState(false);
     // the message form the server
