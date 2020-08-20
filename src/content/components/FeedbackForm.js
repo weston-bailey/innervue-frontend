@@ -4,6 +4,7 @@ import FlashMessage from '../components/FlashMessage';
 import axios from 'axios';
 import GetSpeech from './GetSpeech';
 import GetText from './GetText';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const FeedbackForm = (props) => {
     const [isListening, setIsListening] = useState(false)
@@ -32,6 +33,39 @@ const FeedbackForm = (props) => {
     const handleCloseStatusMessage = () => {
       setShowStatusMessage(false);
     };
+
+    // set up all the speech logic
+
+    const startListening = () => {
+      SpeechRecognition.startListening({ continuous: true })
+      setIsListening(true)
+    }
+
+    const stopListening = () => {
+        SpeechRecognition.stopListening()
+        setIsListening(false)
+    }
+    
+    const {interimTranscript, transcript, finalTranscript, resetTranscript } = useSpeechRecognition()
+
+    // for speech form only
+    useEffect(() => {
+        if (interimTranscript !== '') {
+            // console.log('Got interim result:', interimTranscript)
+            setInputs({
+                answer: transcript,
+                content: props.selectedQuestion,
+                category: props.selectedCategory
+            })
+        }
+        if (finalTranscript !== '') {
+            // console.log('Got final result:', finalTranscript)
+        }
+    }, [interimTranscript, finalTranscript]);
+
+    if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+        return null
+    }
         
     const handleSubmit = e => {
       e.preventDefault();
@@ -40,6 +74,7 @@ const FeedbackForm = (props) => {
       inputs.category = props.selectedCategory;
       // get the current user from the jwt token
       const decoded = jwt_decode(localStorage.getItem('jwtToken'));
+      console.log(`${process.env.REACT_APP_SERVER_URL}users/${decoded.id}/questions`)
       axios.post(`${process.env.REACT_APP_SERVER_URL}users/${decoded.id}/questions`, inputs)
       .then(response => {
           if (response.status === 201) {
@@ -59,6 +94,10 @@ const FeedbackForm = (props) => {
         setIsListening={setIsListening}
         setInputs={setInputs}
         handleSubmit={handleSubmit}
+        startListening={startListening}
+        stopListening={stopListening}
+        resetTranscript={resetTranscript}
+        transcript={transcript}
         /> 
     )
 
@@ -67,7 +106,10 @@ const FeedbackForm = (props) => {
        handleSubmit={handleSubmit}
        setInputs={setInputs}
        inputs={inputs}
-       handleInputChange={handleInputChange}
+       startListening={startListening}
+       stopListening={stopListening}
+       resetTranscript={resetTranscript}
+       transcript={transcript}
        /> 
     )
 

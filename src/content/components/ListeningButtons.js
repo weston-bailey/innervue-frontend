@@ -14,9 +14,7 @@ const ListeningButtons = (props) => {
                 >
                 Start
                 </Button>
-                <Button onClick={() => {
-                    props.stopListening()}
-                }
+                <Button onClick={props.stopListening}
                 startIcon={<StopIcon/>}
                 variant="outlined"
                 color="secondary"
