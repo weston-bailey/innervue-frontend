@@ -53,7 +53,7 @@
 
 .feedback-form-box{
   width: 40vw;
-  opacity: 50%;
+  opacity: 0.5;
   border-radius: 10px;
   font-family: Arial, Helvetica, sans-serif;
   border: none;
